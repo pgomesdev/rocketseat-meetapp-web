@@ -68,5 +68,9 @@ export const Container = styled.div`
   a {
     font-size: 16px;
     color: rgba(255, 255, 255, 0.6);
+
+    &:hover {
+      color: #fff;
+    }
   }
 `;
