@@ -6,11 +6,14 @@ import './config/reactotron';
 
 import Routes from './routes';
 
+import GlobalStyle from './styles/global';
+
 const history = createBrowserHistory();
 
 function App() {
   return (
     <Router history={history}>
+      <GlobalStyle />
       <Routes />
     </Router>
   );
