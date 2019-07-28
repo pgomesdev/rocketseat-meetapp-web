@@ -3,12 +3,15 @@ import { all, takeLatest, call, put } from 'redux-saga/effects';
 import api from '../../../services/api';
 import history from '../../../services/history';
 
-import { AUTH_SIGN_IN_REQUEST, AUTH_SIGN_IN_SUCCESS } from './actions';
+import { AUTH_SIGN_IN_REQUEST, signInSuccess } from './actions';
 
 export function* signIn({ payload }) {
-  const response = yield call(api.post, 'sessions', payload);
+  const { email, password } = payload;
+  const response = yield call(api.post, 'sessions', { email, password });
 
-  yield put({ type: AUTH_SIGN_IN_SUCCESS, payload: response.data });
+  const { token, user } = response.data;
+
+  yield put(signInSuccess(token, user));
 
   history.push('/dashboard');
 }

@@ -8,3 +8,10 @@ export function signInRequest(email, password) {
     payload: { email, password },
   };
 }
+
+export function signInSuccess(token, user) {
+  return {
+    type: AUTH_SIGN_IN_SUCCESS,
+    payload: { token, user },
+  };
+}
