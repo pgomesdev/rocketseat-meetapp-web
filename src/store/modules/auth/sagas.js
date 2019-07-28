@@ -27,7 +27,18 @@ export function* signUp({ payload }) {
   history.push('/');
 }
 
+export function setToken({ payload }) {
+  if (!payload) return;
+
+  const { token } = payload.auth;
+
+  if (token) {
+    api.defaults.headers.Authorization = `Bearer ${token}`;
+  }
+}
+
 export default all([
+  takeLatest('persist/REHYDRATE', setToken),
   takeLatest(AUTH_SIGN_IN_REQUEST, signIn),
   takeLatest(AUTH_SIGN_UP_REQUEST, signUp),
 ]);
