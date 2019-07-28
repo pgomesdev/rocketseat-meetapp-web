@@ -6,6 +6,7 @@ import history from '../../../services/history';
 import {
   AUTH_SIGN_IN_REQUEST,
   AUTH_SIGN_UP_REQUEST,
+  AUTH_SIGN_OUT,
   signInSuccess,
 } from './actions';
 
@@ -37,8 +38,13 @@ export function setToken({ payload }) {
   }
 }
 
+export function signOut() {
+  history.push('/');
+}
+
 export default all([
   takeLatest('persist/REHYDRATE', setToken),
   takeLatest(AUTH_SIGN_IN_REQUEST, signIn),
   takeLatest(AUTH_SIGN_UP_REQUEST, signUp),
+  takeLatest(AUTH_SIGN_OUT, signOut),
 ]);
