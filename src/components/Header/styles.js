@@ -45,7 +45,7 @@ export const Content = styled.div`
 
     button {
       margin-left: 30px;
-      padding: 15px 25px;
+      padding: 10px 25px;
       border-radius: 4px;
       border: 0;
       background: #d44059;
