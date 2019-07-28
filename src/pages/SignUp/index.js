@@ -1,14 +1,19 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { Form, Input } from '@rocketseat/unform';
 import { Link } from 'react-router-dom';
+
+import { signUpRequest } from '../../store/modules/auth/actions';
 
 import { Wrapper, Container } from './styles';
 
 import logo from '../../assets/logo.svg';
 
 export default function SignUp() {
-  function handleSubmit(data) {
-    return data;
+  const dispatch = useDispatch();
+
+  function handleSubmit({ fullname, username, email, password }) {
+    dispatch(signUpRequest(fullname, username, email, password));
   }
 
   return (

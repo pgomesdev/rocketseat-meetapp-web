@@ -3,7 +3,11 @@ import { all, takeLatest, call, put } from 'redux-saga/effects';
 import api from '../../../services/api';
 import history from '../../../services/history';
 
-import { AUTH_SIGN_IN_REQUEST, signInSuccess } from './actions';
+import {
+  AUTH_SIGN_IN_REQUEST,
+  AUTH_SIGN_UP_REQUEST,
+  signInSuccess,
+} from './actions';
 
 export function* signIn({ payload }) {
   const { email, password } = payload;
@@ -16,4 +20,14 @@ export function* signIn({ payload }) {
   history.push('/dashboard');
 }
 
-export default all([takeLatest(AUTH_SIGN_IN_REQUEST, signIn)]);
+export function* signUp({ payload }) {
+  const { fullname, username, email, password } = payload;
+  yield call(api.post, 'users', { fullname, username, email, password });
+
+  history.push('/');
+}
+
+export default all([
+  takeLatest(AUTH_SIGN_IN_REQUEST, signIn),
+  takeLatest(AUTH_SIGN_UP_REQUEST, signUp),
+]);
