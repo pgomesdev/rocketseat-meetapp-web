@@ -1,44 +1,58 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { MdEdit, MdDeleteForever, MdEvent, MdPlace } from 'react-icons/md';
+
+import api from '../../services/api';
+import history from '../../services/history';
 
 import { Container, EditButton, CancelButton } from './styles';
 
-export default function Details() {
+export default function Details({ match }) {
+  const { id } = match.params;
+  const meetup = useSelector(state => state.meetup[id]);
+
+  async function handleCancel() {
+    await api.delete(`meetups/${id}`);
+
+    history.push('/');
+  }
+
   return (
     <Container>
       <header>
-        <h1>Meetup de React Native</h1>
+        <h1>{meetup.name}</h1>
         <div>
-          <EditButton>
+          <EditButton to={`/edit/${id}`}>
             <MdEdit size={20} color="#fff" />
             Editar
           </EditButton>
-          <CancelButton>
+          <CancelButton onClick={handleCancel}>
             <MdDeleteForever size={20} color="#fff" />
             Cancelar
           </CancelButton>
         </div>
       </header>
-      <img
-        src="https://www.nekonation.com/wp-content/uploads/2015/11/DJ-LineUp-November-2015-Purrth-WEB-940x300.jpg"
-        alt="Meetup"
-      />
-      <p>
-        O Meetup de React Native é um evento que reúne a comunidade de
-        desenvolvimento mobile utilizando React a fim de compartilhar
-        conhecimento. Todos são convidados. Caso queira participar como
-        palestrante do meetup envie um e-mail para organizacao@meetuprn.com.br.
-      </p>
+      <img src={meetup.banner.url} alt={meetup.name} />
+      <p>{meetup.description}</p>
       <div>
         <p>
           <MdEvent size={20} color="#fff" />
-          24 de Junho, às 20h
+          {meetup.formattedDate}
         </p>
         <p>
           <MdPlace size={20} color="#fff" />
-          Rua Guilherme Gembala, 260
+          {meetup.location}
         </p>
       </div>
     </Container>
   );
 }
+
+Details.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }),
+  }).isRequired,
+};

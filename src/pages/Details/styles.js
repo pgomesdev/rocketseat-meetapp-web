@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const Container = styled.div`
   max-width: 940px;
@@ -57,9 +58,7 @@ export const Container = styled.div`
   }
 `;
 
-export const EditButton = styled.button.attrs({
-  type: 'button',
-})`
+export const EditButton = styled(Link)`
   color: #fff;
   font-size: 16px;
   font-weight: bold;
