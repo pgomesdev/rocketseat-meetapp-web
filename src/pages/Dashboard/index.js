@@ -39,7 +39,7 @@ export default function Dashboard() {
       </header>
       <ul>
         {meetups.map(meetup => (
-          <li>
+          <li key={meetup.id}>
             <p>{meetup.name}</p>
             <div>
               <p>{meetup.formattedDate}</p>
