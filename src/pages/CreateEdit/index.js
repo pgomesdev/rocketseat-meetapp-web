@@ -1,22 +1,30 @@
 import React from 'react';
 import { Form, Input } from '@rocketseat/unform';
-import { MdCameraAlt, MdAddCircleOutline } from 'react-icons/md';
+import { MdAddCircleOutline } from 'react-icons/md';
+
+import DatePicker from './DatePicker';
+
+import api from '../../services/api';
+import history from '../../services/history';
+
+import BannerInput from './BannerInput';
 
 import { Container } from './styles';
 
 export default function CreateEdit() {
+  async function handleSubmit(data) {
+    await api.post('meetups', data);
+
+    history.push('/');
+  }
+
   return (
     <Container>
-      <div>
-        <div>
-          <MdCameraAlt size={54} color="rgba(255, 255, 255, 0.3)" />
-          <p>Selecionar imagem</p>
-        </div>
-      </div>
-      <Form>
-        <Input name="title" placeholder="Título do Meetup" />
+      <Form onSubmit={handleSubmit}>
+        <BannerInput name="banner_id" />
+        <Input name="name" placeholder="Título do Meetup" />
         <Input multiline name="description" placeholder="Descrição completa" />
-        <Input name="date" placeholder="Data do Meetup" />
+        <DatePicker name="date" />
         <Input name="location" placeholder="Localização" />
         <div>
           <button type="submit">

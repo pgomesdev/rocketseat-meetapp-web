@@ -5,30 +5,6 @@ export const Container = styled.div`
   max-width: 940px;
   margin: 50px auto;
 
-  > div {
-    max-width: 940px;
-    width: 100%;
-    height: 300px;
-    background: rgba(0, 0, 0, 0.4);
-    border-radius: 4px;
-    margin-bottom: 20px;
-
-    div {
-      height: 100%;
-
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      p {
-        font-size: 20px;
-        font-weight: bold;
-        color: rgba(255, 255, 255, 0.3);
-      }
-    }
-  }
-
   form {
     display: flex;
     flex-direction: column;
@@ -48,6 +24,18 @@ export const Container = styled.div`
       }
     }
 
+    span:first-child {
+      display: block;
+
+      div input {
+        width: 100%;
+      }
+    }
+
+    span div:nth-child(2) {
+      display: inline-block;
+    }
+
     textarea {
       height: 200px;
       padding: 20px;
@@ -65,7 +53,7 @@ export const Container = styled.div`
       }
     }
 
-    div {
+    > div {
       display: flex;
       justify-content: flex-end;
       margin-top: 10px;
