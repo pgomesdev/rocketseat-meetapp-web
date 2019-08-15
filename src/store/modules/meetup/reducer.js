@@ -3,7 +3,7 @@ import { MEETUP_LOAD } from './actions';
 
 const INITIAL_STATE = {};
 
-export default function user(state = INITIAL_STATE, action) {
+export default function meetup(state = INITIAL_STATE, action) {
   return produce(state, () => {
     switch (action.type) {
       case MEETUP_LOAD:

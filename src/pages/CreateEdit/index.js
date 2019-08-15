@@ -1,6 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Form, Input } from '@rocketseat/unform';
 import { MdAddCircleOutline } from 'react-icons/md';
+import { Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { parseISO } from 'date-fns';
 
 import DatePicker from './DatePicker';
 
@@ -11,16 +15,31 @@ import BannerInput from './BannerInput';
 
 import { Container } from './styles';
 
-export default function CreateEdit() {
+export default function CreateEdit({ match }) {
+  const { params } = match;
+  const meetup =
+    useSelector(state => ({
+      ...state.meetup[params.id],
+      date: state.meetup[params.id] && parseISO(state.meetup[params.id].date),
+    })) || {};
+
+  if (params['0'] === 'edit' && !params.id) {
+    return <Redirect to="/create" />;
+  }
+
   async function handleSubmit(data) {
-    await api.post('meetups', data);
+    if (!params.id) {
+      await api.post('meetups', data);
+    } else {
+      await api.put(`meetups/${params.id}`, data);
+    }
 
     history.push('/');
   }
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit}>
+      <Form initialData={meetup} onSubmit={handleSubmit}>
         <BannerInput name="banner_id" />
         <Input name="name" placeholder="Título do Meetup" />
         <Input multiline name="description" placeholder="Descrição completa" />
@@ -36,3 +55,9 @@ export default function CreateEdit() {
     </Container>
   );
 }
+
+CreateEdit.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.object,
+  }).isRequired,
+};
