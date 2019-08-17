@@ -24,16 +24,9 @@ export const Container = styled.div`
       }
     }
 
-    span:first-child {
-      display: block;
-
-      div input {
-        width: 100%;
-      }
-    }
-
-    span div:nth-child(2) {
-      display: inline-block;
+    span {
+      margin: 5px 0;
+      color: #fff;
     }
 
     textarea {

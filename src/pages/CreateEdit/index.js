@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
 import { MdAddCircleOutline } from 'react-icons/md';
 import { Redirect } from 'react-router-dom';
@@ -15,6 +16,14 @@ import history from '../../services/history';
 import BannerInput from './BannerInput';
 
 import { Container } from './styles';
+
+const schema = Yup.object().shape({
+  name: Yup.string().required('O nome do meetup é obrigatório.'),
+  description: Yup.string().required('A descrição do meetup é obrigatória.'),
+  location: Yup.string().required('A localização do meetup é obrigatória.'),
+  date: Yup.date().required('A data do meetup é obrigatória.'),
+  banner_id: Yup.number().required('A imagem do meetup é obrigatória.'),
+});
 
 export default function CreateEdit({ match }) {
   const { params } = match;
@@ -48,7 +57,7 @@ export default function CreateEdit({ match }) {
 
   return (
     <Container>
-      <Form initialData={meetup} onSubmit={handleSubmit}>
+      <Form schema={schema} initialData={meetup} onSubmit={handleSubmit}>
         <BannerInput name="banner_id" />
         <Input name="name" placeholder="Título do Meetup" />
         <Input multiline name="description" placeholder="Descrição completa" />
