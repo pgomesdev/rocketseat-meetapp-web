@@ -47,6 +47,11 @@ export const Container = styled.div`
       }
     }
 
+    span {
+      margin: 5px 0;
+      color: #fff;
+    }
+
     button {
       width: 100%;
       height: 50px;
