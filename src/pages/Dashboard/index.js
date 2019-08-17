@@ -4,6 +4,7 @@ import { MdAddCircleOutline, MdChevronRight } from 'react-icons/md';
 import { format, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import api from '../../services/api';
 import { loadMeetup } from '../../store/modules/meetup/actions';
@@ -16,18 +17,26 @@ export default function Dashboard() {
 
   useEffect(() => {
     async function fetchMeetups() {
-      const response = await api.get('schedule');
+      try {
+        const response = await api.get('schedule');
 
-      const data = response.data.map(meetup => ({
-        ...meetup,
-        formattedDate: format(parseISO(meetup.date), "d 'de' MMMM', às' H'h'", {
-          locale: pt,
-        }),
-      }));
+        const data = response.data.map(meetup => ({
+          ...meetup,
+          formattedDate: format(
+            parseISO(meetup.date),
+            "d 'de' MMMM', às' H'h'",
+            {
+              locale: pt,
+            }
+          ),
+        }));
 
-      dispatch(loadMeetup(data));
+        dispatch(loadMeetup(data));
 
-      setMeetups(data);
+        setMeetups(data);
+      } catch (e) {
+        toast.error('Ocorreu um erro enquanto os meetups eram carregados.');
+      }
     }
 
     fetchMeetups();

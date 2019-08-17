@@ -5,6 +5,7 @@ import { MdAddCircleOutline } from 'react-icons/md';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { parseISO } from 'date-fns';
+import { toast } from 'react-toastify';
 
 import DatePicker from './DatePicker';
 
@@ -28,13 +29,21 @@ export default function CreateEdit({ match }) {
   }
 
   async function handleSubmit(data) {
-    if (!params.id) {
-      await api.post('meetups', data);
-    } else {
-      await api.put(`meetups/${params.id}`, data);
-    }
+    try {
+      if (!params.id) {
+        await api.post('meetups', data);
+      } else {
+        await api.put(`meetups/${params.id}`, data);
+      }
 
-    history.push('/');
+      history.push('/');
+
+      toast.success(
+        `Meetup ${params.id ? 'atualizado' : 'criado'} com sucesso.`
+      );
+    } catch (e) {
+      toast.error('Ocorre um erro enquanto o meetup era salvo');
+    }
   }
 
   return (

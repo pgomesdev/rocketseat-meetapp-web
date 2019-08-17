@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { MdEdit, MdDeleteForever, MdEvent, MdPlace } from 'react-icons/md';
+import { toast } from 'react-toastify';
 
 import api from '../../services/api';
 import history from '../../services/history';
@@ -13,9 +14,15 @@ export default function Details({ match }) {
   const meetup = useSelector(state => state.meetup[id]);
 
   async function handleCancel() {
-    await api.delete(`meetups/${id}`);
+    try {
+      await api.delete(`meetups/${id}`);
 
-    history.push('/');
+      history.push('/');
+
+      toast.success('Meetup cancelado com sucesso.');
+    } catch (e) {
+      toast.error('Um erro ocorreu ao cancelar o meetup');
+    }
   }
 
   return (
