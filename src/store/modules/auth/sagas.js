@@ -9,6 +9,7 @@ import {
   AUTH_SIGN_UP_REQUEST,
   AUTH_SIGN_OUT,
   signInSuccess,
+  signUpSuccess,
   signFailure,
 } from './actions';
 
@@ -36,9 +37,13 @@ export function* signUp({ payload }) {
     const { fullname, username, email, password } = payload;
     yield call(api.post, 'users', { fullname, username, email, password });
 
+    yield put(signUpSuccess());
+
     history.push('/');
   } catch (e) {
     toast.error('Um erro ocorreu durante o cadastro, tente novamente.');
+
+    yield put(signFailure());
   }
 }
 
