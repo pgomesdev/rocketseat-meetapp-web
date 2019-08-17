@@ -24,6 +24,11 @@ export const Container = styled.div`
       }
     }
 
+    span {
+      margin: 5px 0;
+      color: #fff;
+    }
+
     hr {
       margin: 20px 0;
       border: 0;
