@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { MdEdit, MdDeleteForever, MdEvent, MdPlace } from 'react-icons/md';
@@ -10,11 +10,14 @@ import history from '../../services/history';
 import { Container, EditButton, CancelButton } from './styles';
 
 export default function Details({ match }) {
+  const [loading, setLoading] = useState(false);
   const { id } = match.params;
   const meetup = useSelector(state => state.meetup[id]);
 
   async function handleCancel() {
     try {
+      setLoading(true);
+
       await api.delete(`meetups/${id}`);
 
       history.push('/');
@@ -22,6 +25,8 @@ export default function Details({ match }) {
       toast.success('Meetup cancelado com sucesso.');
     } catch (e) {
       toast.error('Um erro ocorreu ao cancelar o meetup');
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -34,9 +39,15 @@ export default function Details({ match }) {
             <MdEdit size={20} color="#fff" />
             Editar
           </EditButton>
-          <CancelButton onClick={handleCancel}>
-            <MdDeleteForever size={20} color="#fff" />
-            Cancelar
+          <CancelButton disabled={loading} onClick={handleCancel}>
+            {loading ? (
+              'Cancelando...'
+            ) : (
+              <>
+                <MdDeleteForever size={20} color="#fff" />
+                Cancelar
+              </>
+            )}
           </CancelButton>
         </div>
       </header>
