@@ -46,6 +46,19 @@ export const Container = styled.div`
       }
     }
 
+    .react-datepicker-wrapper {
+      display: flex;
+      justify-content: flex-start;
+
+      .react-datepicker__input-container {
+        width: 100%;
+
+        input {
+          width: 100%;
+        }
+      }
+    }
+
     > div {
       display: flex;
       justify-content: flex-end;

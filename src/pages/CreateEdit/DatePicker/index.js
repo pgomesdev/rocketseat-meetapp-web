@@ -38,6 +38,7 @@ export default function DatePicker({ name }) {
       timeIntervals={1}
       timeCaption="Horário"
       dateFormat="dd/MM/yyyy HH:mm"
+      autoComplete="off"
     />
   );
 }
