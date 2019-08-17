@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import * as Yup from 'yup';
 import { Form, Input } from '@rocketseat/unform';
@@ -26,6 +26,7 @@ const schema = Yup.object().shape({
 });
 
 export default function CreateEdit({ match }) {
+  const [loading, setLoading] = useState(false);
   const { params } = match;
   const meetup =
     useSelector(state => ({
@@ -39,6 +40,8 @@ export default function CreateEdit({ match }) {
 
   async function handleSubmit(data) {
     try {
+      setLoading(true);
+
       if (!params.id) {
         await api.post('meetups', data);
       } else {
@@ -52,6 +55,8 @@ export default function CreateEdit({ match }) {
       );
     } catch (e) {
       toast.error('Ocorre um erro enquanto o meetup era salvo');
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -64,9 +69,15 @@ export default function CreateEdit({ match }) {
         <DatePicker name="date" />
         <Input name="location" placeholder="Localização" />
         <div>
-          <button type="submit">
-            <MdAddCircleOutline size={20} color="#fff" />
-            Salvar Meetup
+          <button type="submit" disabled={loading}>
+            {loading ? (
+              'Salvando...'
+            ) : (
+              <>
+                <MdAddCircleOutline size={20} color="#fff" />
+                Salvar Meetup
+              </>
+            )}
           </button>
         </div>
       </Form>
