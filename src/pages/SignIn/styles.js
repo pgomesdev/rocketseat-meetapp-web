@@ -68,6 +68,10 @@ export const Container = styled.div`
         background: ${darken(0.01, '#f94d6a')};
       }
     }
+
+    button[disabled] {
+      opacity: 0.6;
+    }
   }
 
   a {

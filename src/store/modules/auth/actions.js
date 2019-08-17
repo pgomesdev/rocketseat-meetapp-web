@@ -25,6 +25,10 @@ export function signUpRequest(fullname, username, email, password) {
   };
 }
 
+export function signFailure() {
+  return { type: AUTH_SIGN_FAILURE };
+}
+
 export function signOut() {
   return {
     type: AUTH_SIGN_OUT,

@@ -9,6 +9,7 @@ import {
   AUTH_SIGN_UP_REQUEST,
   AUTH_SIGN_OUT,
   signInSuccess,
+  signFailure,
 } from './actions';
 
 export function* signIn({ payload }) {
@@ -25,6 +26,8 @@ export function* signIn({ payload }) {
     history.push('/dashboard');
   } catch (e) {
     toast.error('Um erro ocorreu durante o login, tente novamente.');
+
+    yield put(signFailure());
   }
 }
 
